@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lydéric Singer</title>
+<meta name="description" content="Lydéric Singer, engineering student at Télécom Nancy. Projects in trading systems, research tooling and software engineering.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23111'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='14' fill='%23e8e8e8' text-anchor='middle'%3Els%3C/text%3E%3C/svg%3E">
+<style>
+@font-face{font-family:"Inter";src:url(fonts/inter-400.woff) format("woff");font-weight:400;font-display:swap}
+@font-face{font-family:"Inter";src:url(fonts/inter-500.woff) format("woff");font-weight:500;font-display:swap}
+@font-face{font-family:"Inter";src:url(fonts/inter-600.woff) format("woff");font-weight:600;font-display:swap}
+@font-face{font-family:"Mono";src:url(fonts/mono.woff) format("woff");font-display:swap}
+:root{
+  --bg:#0c0c0c;--bg-2:#121212;--line:#232323;--line-2:#1a1a1a;
+  --ink:#e6e6e6;--ink-2:#bdbdbd;--muted:#8a8a8a;--dim:#5f5f5f;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Mono","DejaVu Sans Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font:400 15.5px/1.7 var(--sans);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--ink);text-decoration:underline;text-decoration-color:#4a4a4a;text-underline-offset:3px;transition:text-decoration-color .15s,color .15s}
+a:hover{text-decoration-color:var(--ink)}
+::selection{background:#333}
+
+/* layout */
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;border-right:1px solid var(--line-2);padding:40px 28px 28px;display:flex;flex-direction:column}
+.side .me{font:600 16px/1.3 var(--sans);text-decoration:none;color:var(--ink)}
+.side .role{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.5}
+.status{display:flex;align-items:center;gap:8px;font:400 12px/1.4 var(--mono);color:var(--ink-2);margin-top:18px;padding:8px 10px;border:1px solid var(--line);border-radius:6px}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:#4caf7d;flex:none}
+nav.menu{margin-top:34px;display:flex;flex-direction:column;gap:2px}
+nav.menu .grp{font:400 11px/1 var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin:18px 0 8px}
+nav.menu .grp:first-child{margin-top:0}
+nav.menu a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:var(--muted);font-size:14px;padding:5px 8px;margin:0 -8px;border-radius:5px}
+nav.menu a span{font:400 11px/1 var(--mono);color:var(--dim);width:18px}
+nav.menu a:hover{color:var(--ink);background:var(--bg-2)}
+nav.menu a.on{color:var(--ink);background:var(--bg-2)}
+.side .links{margin-top:auto;display:flex;flex-direction:column;gap:6px;font:400 12.5px/1.4 var(--mono)}
+.side .links a{color:var(--muted);text-decoration:none}
+.side .links a:hover{color:var(--ink)}
+
+main{padding:56px 56px 80px;max-width:860px;width:100%;min-width:0}
+.side{min-width:0}
+.page{display:none}
+.page.on{display:block}
+.crumb{font:400 12.5px/1 var(--mono);color:var(--dim);margin-bottom:22px}
+.crumb a{color:var(--dim);text-decoration:none}
+.crumb a:hover{color:var(--ink)}
+h1{font:600 30px/1.2 var(--sans);letter-spacing:-.01em}
+.subtitle{color:var(--muted);font-size:16.5px;margin-top:8px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.tag{font:400 12px/1 var(--mono);color:var(--ink-2);border:1px solid var(--line);border-radius:4px;padding:5px 7px}
+h2{font:600 13px/1 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:46px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--line-2)}
+h3{font:600 15.5px/1.4 var(--sans);margin:22px 0 4px}
+p{color:var(--ink-2)}
+p+p{margin-top:12px}
+p strong,li strong{color:var(--ink);font-weight:500}
+.intro{font-size:17px;color:var(--ink);line-height:1.65;margin-top:22px}
+.intro+.intro{margin-top:14px;color:var(--ink-2)}
+ul.list{list-style:none;display:grid;gap:8px}
+ul.list li{position:relative;padding-left:18px;color:var(--ink-2)}
+ul.list li::before{content:"–";position:absolute;left:0;color:var(--dim)}
+
+/* facts table */
+dl.facts{display:grid;grid-template-columns:190px 1fr;border-top:1px solid var(--line-2);margin-top:28px}
+dl.facts dt,dl.facts dd{padding:10px 0;border-bottom:1px solid var(--line-2)}
+dl.facts dt{font:400 12.5px/1.6 var(--mono);color:var(--muted)}
+dl.facts dd{color:var(--ink);font-size:14.5px}
+
+/* project index rows */
+.rows{border-top:1px solid var(--line-2)}
+.row{display:grid;grid-template-columns:1fr auto;gap:6px 20px;padding:16px 0;border-bottom:1px solid var(--line-2);text-decoration:none;color:inherit}
+.row:hover .t{text-decoration:underline;text-decoration-color:#555;text-underline-offset:3px}
+.row .t{font-weight:500;color:var(--ink)}
+.row .d{grid-column:1/2;color:var(--muted);font-size:14.5px}
+.row .y{grid-row:1/2;grid-column:2/3;font:400 12.5px/1.7 var(--mono);color:var(--dim);white-space:nowrap}
+.row .s{grid-column:1/3;font:400 12px/1.5 var(--mono);color:var(--dim)}
+
+/* figures */
+figure.fig{margin:28px 0;border:1px solid var(--line);border-radius:8px;background:#0e0e0e;padding:20px;overflow-x:auto}
+figure.fig svg.diag{width:100%;height:auto;display:block;min-width:640px}
+figure.fig figcaption{font:400 12px/1.5 var(--mono);color:var(--dim);margin-top:14px}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.shots figure{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#0d1215}
+.shots figcaption{font:400 12px/1.4 var(--mono);color:var(--muted);padding:8px 10px;background:var(--bg);border-top:1px solid var(--line)}
+.ranks{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.ranks img{border:1px solid var(--line);border-radius:6px}
+.note{font-size:13.5px;color:var(--muted);margin-top:12px}
+
+/* craft */
+.strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:14px}
+.strip figure{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#f0eeea}
+.strip img{aspect-ratio:1/1;width:100%;object-fit:cover}
+.strip figcaption{font:400 11px/1.3 var(--mono);color:var(--muted);background:var(--bg);padding:6px 7px;border-top:1px solid var(--line)}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.photos figure{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#141414}
+.photos img{width:100%;height:220px;object-fit:cover}
+.photos .ct img{object-fit:contain;padding:10px}
+.photos .dark{background:#202630}
+.photos .wide{grid-column:1/-1}
+.photos .wide img{height:260px;padding:16px 24px}
+.photos figcaption{font:400 11.5px/1.4 var(--mono);color:var(--muted);background:var(--bg);padding:7px 9px;border-top:1px solid var(--line)}
+
+/* about */
+.tl{border-top:1px solid var(--line-2)}
+.tl div{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:12px 0;border-bottom:1px solid var(--line-2)}
+.tl .w{font:400 12.5px/1.7 var(--mono);color:var(--muted)}
+.tl b{font-weight:500;color:var(--ink);display:block}
+.tl span{color:var(--muted);font-size:14px}
+
+/* pager */
+.pager{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:20px;border-top:1px solid var(--line-2);font:400 13px/1.4 var(--mono)}
+.pager a{text-decoration:none;color:var(--muted)}
+.pager a:hover{color:var(--ink)}
+.pager .nx{margin-left:auto;text-align:right}
+
+/* diagram (monochrome) */
+.d-box{fill:#111;stroke:#343434;stroke-width:1}
+.d-hi{stroke:#7a7a7a;fill:#141414}
+.d-sub{fill:#0f0f0f;stroke:#2a2a2a;stroke-width:1}
+.d-chip{fill:#131313;stroke:#353535;stroke-width:1}
+.d-gold{stroke:#5c5c5c;fill:#161616}
+.d-gold-box{stroke:#7a7a7a;fill:#151515}
+.d-ok{stroke:#3e6a55}.d-ko{stroke:#6e4242}
+.d-k{font:400 11px var(--mono);letter-spacing:.06em;fill:#8a8a8a}
+.d-okt{fill:#7fb59a}.d-kot{fill:#c98d8d}
+.d-t{font:500 16px var(--sans);fill:#e8e8e8}
+.d-s{font:400 12px var(--sans);fill:#8a8a8a}
+.d-c{font:500 13.5px var(--sans);fill:#d9d9d9}
+.d-cs{font:400 11.5px var(--sans);fill:#8a8a8a}
+.d-line{stroke:#6a6a6a;stroke-width:1.2;fill:none}
+.d-dash{stroke-dasharray:5 5}
+.d-thin{stroke-width:.8;opacity:.7}
+.d-rule{stroke:#222;stroke-width:1}
+.d-arrowhead{fill:#6a6a6a}
+
+
+code{font:400 .88em var(--mono);background:var(--bg-2);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--ink)}
+
+/* print: every page in sequence (used for the PDF portfolio) */
+@media print{
+  @page{size:A4;margin:0}
+  html,body{background:var(--bg);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{font-size:12.5px;line-height:1.6}
+  .layout{display:block}
+  .side,.pager{display:none!important}
+  main{max-width:none;padding:0}
+  .page{display:block!important;padding:15mm 16mm 12mm;break-before:page}
+  .page:first-child{break-before:auto}
+  h1{font-size:25px}
+  .subtitle{font-size:14px}
+  .intro{font-size:14.5px}
+  h2{margin:26px 0 10px;padding-bottom:7px;font-size:11.5px;break-after:avoid}
+  dl.facts{margin-top:16px;grid-template-columns:150px 1fr}
+  dl.facts dt,dl.facts dd{padding:6px 0}
+  dl.facts dt{font-size:11px} dl.facts dd{font-size:12.5px}
+  ul.list{gap:5px}
+  figure.fig{margin:16px 0;padding:14px}
+  figure.fig svg.diag{min-width:0}
+  figure,.shots,.ranks,.strip,.photos,.row,ul.list li,.tl div{break-inside:avoid}
+  .row{padding:8px 0}
+  .row .t{font-size:13.5px} .row .d{font-size:12.5px} .row .s,.row .y{font-size:10.5px}
+  .photos img{height:115px}
+  .shots{gap:8px}
+  .print-only{display:block!important}
+  .no-print{display:none!important}
+  .ceil-fig{margin:10px 0 0!important;padding:8px!important} .ceil-fig img{max-height:44mm;width:auto;margin:0 auto} .ceil-fig figcaption{margin-top:6px}
+  .photos .wide img{height:100px;padding:6px}
+}
+.print-only{display:none}
+
+/* mobile */
+.topbar{display:none}
+@media screen and (max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line-2);padding:22px 20px 14px}
+  nav.menu{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:4px;margin-top:18px;padding-bottom:4px}
+  nav.menu .grp{display:none}
+  nav.menu a{white-space:nowrap;margin:0;border:1px solid var(--line)}
+  nav.menu a span{display:none}
+  .side .links{display:none}
+  main{padding:32px 20px 60px}
+  dl.facts{grid-template-columns:1fr}
+  dl.facts dt{border-bottom:0;padding-bottom:0}
+  .shots,.photos{grid-template-columns:1fr 1fr}
+  .strip{grid-template-columns:repeat(3,1fr)}
+  .tl div{grid-template-columns:1fr;gap:2px}
+  .row .d{grid-column:1/3}
+}
+@media screen and (max-width:520px){
+  .shots,.photos,.ranks{grid-template-columns:1fr}
+  h1{font-size:26px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<aside class="side">
+  <a class="me" href="#home">Lydéric Singer</a>
+  <div class="role">Engineering student, Télécom Nancy<br>Software apprentice, LibScience</div>
+  <nav class="menu" id="menu">
+    <div class="grp">Index</div>
+    <a href="#home" data-p="home"><span>00</span>Home</a>
+    <div class="grp">Projects</div>
+    <a href="#trador" data-p="trador"><span>01</span>Trador</a>
+    <a href="#backtester" data-p="backtester"><span>02</span>Backtester</a>
+    <a href="#trench" data-p="trench"><span>03</span>Trench</a>
+    <a href="#civilization" data-p="civilization"><span>04</span>Civilization</a>
+    <div class="grp">Work</div>
+    <a href="#libscience" data-p="libscience"><span>05</span>LibScience</a>
+    <div class="grp">Other</div>
+    <a href="#craft" data-p="craft"><span>06</span>Side project</a>
+    <a href="#about" data-p="about"><span>07</span>About</a>
+  </nav>
+  <div class="links">
+    <a href="https://github.com/lyderic-singer">github</a>
+    <a href="https://www.linkedin.com/in/lyderic-singer/">linkedin</a>
+  </div>
+</aside>
+
+<main>
+
+<!-- HOME -->
+<section class="page" data-page="home">
+  <div class="crumb">~/</div>
+  <h1>Lydéric Singer</h1>
+  <p class="print-only" style="font:400 12px/1.6 var(--mono);color:var(--muted);margin-top:8px">lyderic-singer.github.io/Portfolio · github.com/lyderic-singer · linkedin.com/in/lyderic-singer</p>
+  <p class="intro">Engineering student at Télécom Nancy (France) and software engineering apprentice at LibScience. I build trading systems and full-stack software.</p>
+  <p class="intro">This site collects what I have built: a trading system that runs with real capital, the research tools behind it, full-stack applications, and one long piece of woodwork.</p>
+
+  <h2>Projects</h2>
+  <div class="rows">
+    <a class="row" href="#trador"><span class="t">Trador</span><span class="y">2024 – now</span><span class="d">Automated multi-exchange trading system. ~20 strategies, $120M+ volume executed, live for 14 months. Public showcase of the refactor.</span><span class="s">python · asyncio · websocket · telegram</span></a>
+    <a class="row" href="#backtester"><span class="t">Maker backtester</span><span class="y">2024 – now</span><span class="d">L2 order-book backtester for maker strategies: download, binary format, replay engine, six strategies.</span><span class="s">c · openmp · python · open source</span></a>
+    <a class="row" href="#trench"><span class="t">Trench</span><span class="y">2025</span><span class="d">Trustless OTC pre-market on Hyperliquid's EVM: escrow contract, event indexer, web app.</span><span class="s">solidity · typescript · postgresql · angular</span></a>
+    <a class="row" href="#civilization"><span class="t">Early Civilization</span><span class="y">2025 – 2026</span><span class="d">Turn-based strategy game in C, school project for two: seeded map generation, terminal and SDL2 interfaces.</span><span class="s">c · sdl2 · unit tests · open source</span></a>
+  </div>
+
+  <h2>Work</h2>
+  <div class="rows">
+    <a class="row" href="#libscience"><span class="t">LibScience · Software engineering apprentice</span><span class="y">2025 – 2028</span><span class="d">Citation-format engine of a reference checker for scientific manuscripts.</span><span class="s">python · fastapi · sqlalchemy · redis</span></a>
+  </div>
+
+  <h2>Other</h2>
+  <div class="rows">
+    <a class="row" href="#craft"><span class="t">Empire four-poster bed</span><span class="y">2022 – now</span><span class="d">1,300+ hours of design and making with a heritage architect; a home-automated canopy is next.</span></a>
+  </div>
+
+  <div class="no-print">
+  <h2>Elsewhere</h2>
+  <dl class="facts" style="margin-top:0">
+    <dt>github</dt><dd><a href="https://github.com/lyderic-singer">github.com/lyderic-singer</a></dd>
+    <dt>linkedin</dt><dd><a href="https://www.linkedin.com/in/lyderic-singer/">linkedin.com/in/lyderic-singer</a></dd>
+  </dl>
+  </div>
+</section>
+
+<!-- TRADOR -->
+<section class="page" data-page="trador">
+  <div class="crumb"><a href="#home">~</a>/projects/trador</div>
+  <h1>Trador</h1>
+  <p class="subtitle">An automated multi-exchange trading system, built and operated alone.</p>
+  <div class="meta"><span class="tag">python</span><span class="tag">asyncio</span><span class="tag">websockets</span><span class="tag">uv</span><span class="tag">pytest</span><span class="tag">github actions</span><span class="tag">telegram bot</span></div>
+
+  <dl class="facts">
+    <dt>volume executed</dt><dd>$120M+ (bot only, manual trades excluded)</dd>
+    <dt>in production</dt><dd>14 months, with real capital</dd>
+    <dt>strategies</dt><dd>~20, several running in parallel</dd>
+    <dt>venues</dt><dd>Hyperliquid, Lighter, Aster, Arcus; earlier versions also Binance, Coinbase, Bitget, MEXC</dd>
+    <dt>accounts</dt><dd>40</dd>
+    <dt>infrastructure</dt><dd>3 VPS: Germany, then France, then Japan</dd>
+    <dt>source</dt><dd><a href="https://github.com/lyderic-singer/Trador">github.com/lyderic-singer/Trador</a>: a public snapshot of the refactored framework, without the production strategies</dd>
+  </dl>
+
+  <h2>Overview</h2>
+  <p>Trador is a fully asynchronous Python framework for perpetual exchanges. It gives one <code>Exchange</code> interface across venues, so a strategy is written once and runs unchanged everywhere. I designed every layer: the exchange engines, the adapters, the strategy toolkit, the infrastructure and the control interface.</p>
+  <p>Running it with real money taught me what decides whether an edge survives: fees, latency, adverse selection, and staying up when an exchange API fails. I moved the servers twice, from Germany to France and then to Japan, to get closer to the exchanges.</p>
+  <p>The public repository is a showcase of the refactored framework with one example strategy. The production strategies (market making, funding, arbitrage, HIP-4 outcomes), their hedge engine, parameters and research tools stay private.</p>
+
+  <figure class="fig"><svg class="diag" viewBox="0 0 1000 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Trador architecture">
+  <defs>
+    <marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-arrowhead"/></marker>
+  </defs>
+
+  <!-- Control / research -->
+  <rect x="30" y="20" width="300" height="78" class="d-box"/>
+  <text x="48" y="46" class="d-k">CONTROL</text>
+  <text x="48" y="70" class="d-t">Telegram bot</text>
+  <text x="48" y="88" class="d-s">/pf · /vol · /stats · /stop · /kill · alerts</text>
+
+  <rect x="670" y="20" width="300" height="78" class="d-box"/>
+  <text x="688" y="46" class="d-k">RESEARCH</text>
+  <text x="688" y="70" class="d-t">C order-book backtester</text>
+  <text x="688" y="88" class="d-s">strategies tested here before going live</text>
+
+  <path d="M180 98 V136" class="d-line" marker-end="url(#ar1)"/>
+  <path d="M820 98 V136" class="d-line d-dash" marker-end="url(#ar1)"/>
+
+  <!-- Strategies -->
+  <rect x="30" y="138" width="940" height="170" class="d-box d-hi"/>
+  <text x="50" y="164" class="d-k">STRATEGIES · src/strategies</text>
+  <text x="950" y="164" class="d-s" text-anchor="end">written once, run unchanged on every venue · several in parallel</text>
+  <rect x="50"  y="180" width="140" height="50" class="d-chip"/><text x="120" y="202" class="d-c" text-anchor="middle">Market making</text><text x="120" y="219" class="d-cs" text-anchor="middle">maker-first</text>
+  <rect x="202" y="180" width="140" height="50" class="d-chip"/><text x="272" y="202" class="d-c" text-anchor="middle">Grid / envelope</text><text x="272" y="219" class="d-cs" text-anchor="middle">band trading</text>
+  <rect x="354" y="180" width="140" height="50" class="d-chip"/><text x="424" y="202" class="d-c" text-anchor="middle">Cross-exchange</text><text x="424" y="219" class="d-cs" text-anchor="middle">arbitrage</text>
+  <rect x="506" y="180" width="140" height="50" class="d-chip"/><text x="576" y="202" class="d-c" text-anchor="middle">Cross-exchange</text><text x="576" y="219" class="d-cs" text-anchor="middle">market making</text>
+  <rect x="658" y="180" width="140" height="50" class="d-chip"/><text x="728" y="202" class="d-c" text-anchor="middle">Funding / LP</text><text x="728" y="219" class="d-cs" text-anchor="middle">arbitrage</text>
+  <rect x="810" y="180" width="140" height="50" class="d-chip"/><text x="880" y="202" class="d-c" text-anchor="middle">HIP-4 outcomes</text><text x="880" y="219" class="d-cs" text-anchor="middle">prediction markets</text>
+  <rect x="50" y="244" width="900" height="48" class="d-sub"/>
+  <text x="66" y="265" class="d-c">Building blocks</text>
+  <text x="66" y="282" class="d-cs">market data · account tracking · cooldown-aware executor · local order tracking · batched gateway with an action budget</text>
+
+  <path d="M500 308 V344" class="d-line" marker-end="url(#ar1)" marker-start="url(#ar1)"/>
+
+  <!-- Adapters -->
+  <rect x="30" y="346" width="940" height="62" class="d-box"/>
+  <text x="50" y="372" class="d-k">ADAPTERS · src/adapters</text>
+  <text x="50" y="394" class="d-s">native data → standard models: Order · Fill · Position · AccountState. Strategies only ever see this layer.</text>
+
+  <path d="M500 408 V444" class="d-line" marker-end="url(#ar1)" marker-start="url(#ar1)"/>
+
+  <!-- Core engines -->
+  <rect x="30" y="446" width="940" height="110" class="d-box"/>
+  <text x="50" y="472" class="d-k">CORE ENGINES · src/core</text>
+  <text x="50" y="494" class="d-s">one package per venue, in its native protocol: signing, per-key nonces, clock-skew correction, websockets, rate limits</text>
+  <rect x="50" y="506" width="900" height="36" class="d-sub"/>
+  <text x="66" y="529" class="d-cs">shared: orchestrator · sessions · reconnecting socket (backoff, resubscribe, REST resync of missed fills) · latency tracker · launch journal</text>
+
+  <!-- Venues -->
+  <path d="M102 556 V584 M216 556 V584 M329 556 V584 M443 556 V584 M557 556 V584 M671 556 V584 M784 556 V584 M898 556 V584" class="d-line d-thin"/>
+  <rect x="50"  y="584" width="104" height="38" class="d-chip"/><text x="102" y="608" class="d-c" text-anchor="middle">Binance</text>
+  <rect x="164" y="584" width="104" height="38" class="d-chip"/><text x="216" y="608" class="d-c" text-anchor="middle">Coinbase</text>
+  <rect x="277" y="584" width="104" height="38" class="d-chip"/><text x="329" y="608" class="d-c" text-anchor="middle">Bitget</text>
+  <rect x="391" y="584" width="104" height="38" class="d-chip"/><text x="443" y="608" class="d-c" text-anchor="middle">MEXC</text>
+  <rect x="505" y="584" width="104" height="38" class="d-chip d-gold"/><text x="557" y="608" class="d-c" text-anchor="middle">Hyperliquid</text>
+  <rect x="619" y="584" width="104" height="38" class="d-chip d-gold"/><text x="671" y="608" class="d-c" text-anchor="middle">Lighter</text>
+  <rect x="732" y="584" width="104" height="38" class="d-chip d-gold"/><text x="784" y="608" class="d-c" text-anchor="middle">Aster</text>
+  <rect x="846" y="584" width="104" height="38" class="d-chip d-gold"/><text x="898" y="608" class="d-c" text-anchor="middle">Arcus</text>
+  <text x="50" y="642" class="d-cs">earlier versions: centralized exchanges</text>
+  <text x="950" y="642" class="d-cs" text-anchor="end">current refactor: the four perp DEXs (EIP-712, Ed25519, Schnorr over ECgFp5)</text>
+
+  <!-- Infra -->
+  <line x1="30" y1="662" x2="970" y2="662" class="d-rule"/>
+  <text x="30" y="692" class="d-k">INFRA</text>
+  <text x="110" y="692" class="d-c">3 VPS: Germany → France → Japan</text>
+  <text x="430" y="692" class="d-cs">moved closer to the exchanges</text>
+  <text x="970" y="692" class="d-c" text-anchor="end">40 bot accounts</text>
+</svg>
+<figcaption>Fig. 1: three layers. Strategies only see adapters; adapters only see the core engines.</figcaption></figure>
+
+  <h2>Strategy families</h2>
+  <dl class="facts" style="margin-top:0">
+    <dt>market making</dt><dd>Quotes both sides and earns the spread, with inventory and adverse-selection control.</dd>
+    <dt>grid / envelope</dt><dd>Systematic range and band trading, with levels sized and reset automatically.</dd>
+    <dt>cross-exchange arb</dt><dd>Captures price gaps between venues, net of fees, latency and the risk of one leg not filling.</dd>
+    <dt>cross-exchange mm</dt><dd>Quotes on one venue and hedges on a more liquid one.</dd>
+    <dt>funding / lp arb</dt><dd>Funding-rate differences, and AMM pool prices against order books.</dd>
+    <dt>hip-4 outcomes</dt><dd>Quoting and volume strategies on Hyperliquid's binary outcome markets.</dd>
+  </dl>
+
+  <h2>Engineering notes</h2>
+  <ul class="list">
+    <li><strong>Four signing schemes behind one interface:</strong> EIP-712 / L1 actions (Hyperliquid, Aster), Ed25519 API keys (Arcus), Schnorr over ECgFp5 (Lighter). Per-key nonces and clock-skew correction.</li>
+    <li><strong>Venue differences normalized:</strong> synchronous vs. asynchronous acknowledgements, client-id sizes, funding intervals, price bands, minimum sizes.</li>
+    <li><strong>Orders over WebSocket</strong> on Hyperliquid and Arcus, with automatic fallback to REST when the socket drops.</li>
+    <li><strong>Resilience:</strong> reconnection with backoff, resubscription, and REST resync of fills missed while disconnected.</li>
+    <li><strong>Observability:</strong> latency measured per venue, method and transport; a launch journal records the git commit, versions and parameters of every run and diffs them against the previous one.</li>
+    <li><strong>Control:</strong> a Telegram bot (<code>/pf</code>, <code>/vol</code>, <code>/stats</code>, <code>/stop</code>, <code>/kill</code>) that only answers its configured chat.</li>
+    <li><strong>Tests:</strong> an offline pytest suite in virtual time that runs in seconds, simulators of Lighter and Aster written from their docs, an in-memory fake exchange; CI on GitHub Actions.</li>
+    <li><strong>Research loop:</strong> strategies are tested in the <a href="#backtester">C backtester</a> before going live.</li>
+  </ul>
+
+  <h2>Proof of activity</h2>
+  <p>Lifetime volume on three of the bot's Hyperliquid accounts, out of forty. PnL, balances and drawdown are redacted.</p>
+  <div class="shots">
+    <figure><img src="img/hl_a.webp" alt="Hyperliquid account, $8.07M volume" loading="lazy"><figcaption>account A · $8.07M</figcaption></figure>
+    <figure><img src="img/hl_b.webp" alt="Hyperliquid account, $19.93M volume" loading="lazy"><figcaption>account B · $19.93M</figcaption></figure>
+    <figure><img src="img/hl_c.webp" alt="Hyperliquid account, $28.48M volume" loading="lazy"><figcaption>account C · $28.48M</figcaption></figure>
+  </div>
+  <div class="ranks">
+    <img src="img/arcus_2.webp" alt="Arcus Season 1, Gold tier, rank 1101" loading="lazy">
+    <img src="img/arcus_1.webp" alt="Arcus Season 1, Platinum tier, rank 1162" loading="lazy">
+  </div>
+  <p class="note">Arcus, Season 1: two bot accounts ranked #1101 and #1162.</p>
+
+  <div class="pager"><a href="#home">← home</a><a class="nx" href="#backtester">backtester →</a></div>
+</section>
+
+<!-- BACKTESTER -->
+<section class="page" data-page="backtester">
+  <div class="crumb"><a href="#home">~</a>/projects/backtester</div>
+  <h1>Maker backtester</h1>
+  <p class="subtitle">An order-book backtester in C, from raw data download to PnL per million dollars traded.</p>
+  <div class="meta"><span class="tag">c</span><span class="tag">zlib only</span><span class="tag">openmp</span><span class="tag">mmap</span><span class="tag">python (download)</span><span class="tag">open source</span></div>
+
+  <dl class="facts">
+    <dt>data</dt><dd>Public Hyperliquid L2 order-book archive on S3: ~239k files, ~100 GB per market</dd>
+    <dt>book depth</dt><dd>20 levels per side, every snapshot</dd>
+    <dt>code</dt><dd>~3k lines of C (engine + strategies), Python downloader</dd>
+    <dt>strategies</dt><dd>6: envelope, grid, touch, volband, Avellaneda-Stoikov, and a port of a live bot strategy</dd>
+    <dt>repository</dt><dd><a href="https://github.com/lyderic-singer/Quant">github.com/lyderic-singer/Quant</a></dd>
+  </dl>
+
+  <h2>Why</h2>
+  <p>Candle-based backtests say nothing about maker strategies: whether a resting order fills depends on the order flow behind it. This engine replays the full order book snapshot by snapshot and matches the strategy's orders against it, so fills, fees, inventory and drawdown can be measured before a strategy trades real money in <a href="#trador">Trador</a>.</p>
+
+  <figure class="fig"><svg class="diag" viewBox="0 0 1000 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Backtester pipeline">
+  <defs>
+    <marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-arrowhead"/></marker>
+  </defs>
+  <rect x="20" y="20" width="215" height="140" class="d-box"/>
+  <text x="36" y="46" class="d-k">01 · DOWNLOAD · PYTHON</text>
+  <text x="36" y="72" class="d-t">Public L2 archive</text>
+  <text x="36" y="96" class="d-cs">Hyperliquid order books on S3</text>
+  <text x="36" y="114" class="d-cs">~239k small json.gz files</text>
+  <text x="36" y="132" class="d-cs">128 threads, retry, resume,</text>
+  <text x="36" y="150" class="d-cs">cached listing</text>
+
+  <rect x="265" y="20" width="215" height="140" class="d-box"/>
+  <text x="281" y="46" class="d-k">02 · EXTRACT · C + OPENMP</text>
+  <text x="281" y="72" class="d-t">json.gz → .l2</text>
+  <text x="281" y="96" class="d-cs">fixed 656-byte snapshots,</text>
+  <text x="281" y="114" class="d-cs">20 levels per side</text>
+  <text x="281" y="132" class="d-cs">no parsing at run time:</text>
+  <text x="281" y="150" class="d-cs">the file is the struct array</text>
+
+  <rect x="510" y="20" width="230" height="140" class="d-box d-hi"/>
+  <text x="526" y="46" class="d-k">03 · ENGINE · C</text>
+  <text x="526" y="72" class="d-t">Event-by-event replay</text>
+  <text x="526" y="96" class="d-cs">mmap of the time window only</text>
+  <text x="526" y="114" class="d-cs">fill models, latency, fees</text>
+  <text x="526" y="132" class="d-cs">leverage and liquidation</text>
+  <text x="526" y="150" class="d-cs">match first, then quote</text>
+
+  <rect x="770" y="20" width="210" height="140" class="d-box"/>
+  <text x="786" y="46" class="d-k">04 · RESULTS</text>
+  <text x="786" y="72" class="d-t">PnL per $M traded</text>
+  <text x="786" y="96" class="d-cs">fills, rotation, drawdown,</text>
+  <text x="786" y="114" class="d-cs">fees, equity curve (CSV)</text>
+  <text x="786" y="132" class="d-cs">comparable across strategies</text>
+  <text x="786" y="150" class="d-cs">and with live trading</text>
+
+  <path d="M235 90 H263" class="d-line" marker-end="url(#ar4)"/>
+  <path d="M480 90 H508" class="d-line" marker-end="url(#ar4)"/>
+  <path d="M740 90 H768" class="d-line" marker-end="url(#ar4)"/>
+
+  <!-- strategies -->
+  <path d="M625 160 V196" class="d-line" marker-start="url(#ar4)"/>
+  <rect x="265" y="198" width="715" height="120" class="d-sub"/>
+  <text x="281" y="224" class="d-k">STRATEGIES · ONE FOLDER EACH, SAME quotes() INTERFACE</text>
+  <rect x="281" y="240" width="104" height="48" class="d-chip"/><text x="333" y="261" class="d-c" text-anchor="middle">envelope</text><text x="333" y="278" class="d-cs" text-anchor="middle">EMA ladder</text>
+  <rect x="397" y="240" width="104" height="48" class="d-chip"/><text x="449" y="261" class="d-c" text-anchor="middle">grid</text><text x="449" y="278" class="d-cs" text-anchor="middle">fixed levels</text>
+  <rect x="513" y="240" width="104" height="48" class="d-chip"/><text x="565" y="261" class="d-c" text-anchor="middle">touch</text><text x="565" y="278" class="d-cs" text-anchor="middle">join best bid/ask</text>
+  <rect x="629" y="240" width="104" height="48" class="d-chip"/><text x="681" y="261" class="d-c" text-anchor="middle">volband</text><text x="681" y="278" class="d-cs" text-anchor="middle">vol-scaled</text>
+  <rect x="745" y="240" width="104" height="48" class="d-chip"/><text x="797" y="261" class="d-c" text-anchor="middle">stoikov</text><text x="797" y="278" class="d-cs" text-anchor="middle">inventory MM</text>
+  <rect x="861" y="240" width="104" height="48" class="d-chip"/><text x="913" y="261" class="d-c" text-anchor="middle">dumb</text><text x="913" y="278" class="d-cs" text-anchor="middle">bot port</text>
+
+  <!-- tools -->
+  <rect x="20" y="198" width="215" height="120" class="d-sub"/>
+  <text x="36" y="224" class="d-k">TOOLS</text>
+  <text x="36" y="250" class="d-c">bin/info</text>
+  <text x="36" y="267" class="d-cs">period, cadence, gaps</text>
+  <text x="36" y="290" class="d-c">bin/probas</text>
+  <text x="36" y="307" class="d-cs">fill probability vs. distance</text>
+</svg>
+<figcaption>Fig. 2: pipeline, from the S3 archive to results.</figcaption></figure>
+
+  <h2>Design choices</h2>
+  <ul class="list">
+    <li><strong>A binary format that needs no parsing.</strong> Each 656-byte record on disk is the C struct itself. Opening a multi-gigabyte file is a memory map and a cast; a binary search on the file finds the requested time window, and only that window is mapped.</li>
+    <li><strong>No look-ahead by construction.</strong> For every snapshot the engine filters bad prints, updates indicators, matches resting orders, does the accounting and liquidation check, and only then asks the strategy for quotes. The strategy never sees a book its orders were not already matched against.</li>
+    <li><strong>Realistic execution.</strong> Two fill models (price must trade through, or just touch), order latency, maker and taker fees, leverage and maintenance margin. Orders that do not change keep their place in the queue.</li>
+    <li><strong>Time-based indicators.</strong> EMA, SMA, volatility, microprice and imbalance are indexed on time, not on snapshot count, so irregular cadence and gaps do not bias them. A candle mode reproduces the live bot's EMA, lag included.</li>
+    <li><strong>One comparable number.</strong> Results are reported as PnL per $1M traded, which compares strategies with each other and with live trading whatever the capital.</li>
+    <li><strong>Pluggable strategies.</strong> A strategy is one folder and one <code>quotes()</code> function returning the ladder it wants; the engine knows none of them.</li>
+  </ul>
+
+  <h2>Tools around it</h2>
+  <ul class="list">
+    <li><strong>Downloader:</strong> 128 threads for hundreds of thousands of small S3 objects, with retry and backoff, resume, and a cached bucket listing.</li>
+    <li><strong>Extractor:</strong> converts compressed JSON to the binary format, in parallel with OpenMP.</li>
+    <li><strong>bin/info:</strong> checks what the engine will see: period, cadence, gaps, anomalies.</li>
+    <li><strong>bin/probas:</strong> a market study with no strategy: the probability that price comes back to a given distance from its average within a horizon, used to space the order ladder.</li>
+    <li><strong>Reverse mode:</strong> replaces every maker fill with a taker trade the other way, walking the visible book, to test the mirror strategy.</li>
+  </ul>
+
+  <div class="pager"><a href="#trador">← trador</a><a class="nx" href="#trench">trench →</a></div>
+</section>
+
+<!-- TRENCH -->
+<section class="page" data-page="trench">
+  <div class="crumb"><a href="#home">~</a>/projects/trench</div>
+  <h1>Trench</h1>
+  <p class="subtitle">A trustless OTC pre-market on Hyperliquid's EVM.</p>
+  <div class="meta"><span class="tag">solidity</span><span class="tag">openzeppelin</span><span class="tag">typescript</span><span class="tag">node / express 5</span><span class="tag">postgresql</span><span class="tag">ethers.js</span><span class="tag">angular 21</span></div>
+
+  <dl class="facts">
+    <dt>role</dt><dd>Co-founder, team of two; back end, indexer, front end and contract integration</dd>
+    <dt>period</dt><dd>2025, from October</dd>
+    <dt>effort</dt><dd>~300 hours, 500+ commits, ~11k lines</dd>
+    <dt>repository</dt><dd><a href="https://github.com/lyderic-singer/Trench">github.com/lyderic-singer/Trench</a></dd>
+    <dt>status</dt><dd>Deployed on testnet; paused before mainnet pending a smart-contract security audit</dd>
+  </dl>
+
+  <h2>Problem</h2>
+  <p>Before a token launches, traders want to buy or sell their future allocation. Today this happens over chat with a trusted middleman. Trench removes the middleman. Both sides lock collateral in a smart contract. At settlement, the seller delivers the real token. If the seller does not deliver, the buyer takes the seller's collateral.</p>
+  <p>I first wrote our own escrow contract. It worked, but it was limited and too custom to be audited with confidence. Code that holds user funds should not be novel, so we forked an established pre-market contract from the same niche and adapted it.</p>
+  <p>We still stopped before mainnet: no security audit had been done on our version, and we would not ask users to deposit funds into an unaudited contract.</p>
+
+  <figure class="fig"><svg class="diag" viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Trench escrow lifecycle">
+  <defs>
+    <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-arrowhead"/></marker>
+  </defs>
+  <!-- step labels -->
+  <text x="30"  y="30" class="d-k">01 · OFFER</text>
+  <text x="270" y="30" class="d-k">02 · MATCH</text>
+  <text x="510" y="30" class="d-k">03 · SETTLEMENT PHASE</text>
+  <text x="760" y="30" class="d-k">04 · OUTCOME</text>
+
+  <rect x="30" y="46" width="200" height="120" class="d-box"/>
+  <text x="46" y="74" class="d-t">Maker posts</text>
+  <text x="46" y="94" class="d-t">a bid or ask</text>
+  <text x="46" y="120" class="d-cs">price per point / token</text>
+  <text x="46" y="138" class="d-cs">collateral locked on-chain</text>
+  <text x="46" y="156" class="d-cs">(pledge rate)</text>
+
+  <rect x="270" y="46" width="200" height="120" class="d-box"/>
+  <text x="286" y="74" class="d-t">Taker fills</text>
+  <text x="286" y="94" class="d-t">fully or partially</text>
+  <text x="286" y="120" class="d-cs">both legs held in escrow</text>
+  <text x="286" y="138" class="d-cs">order = OPEN</text>
+  <text x="286" y="156" class="d-cs">unfilled offers refundable</text>
+
+  <rect x="510" y="46" width="210" height="120" class="d-box d-hi"/>
+  <text x="526" y="74" class="d-t">Token goes live</text>
+  <text x="526" y="100" class="d-cs">operator sets the token address,</text>
+  <text x="526" y="118" class="d-cs">settle rate and deadline</text>
+  <text x="526" y="144" class="d-cs">seller must deliver before</text>
+  <text x="526" y="162" class="d-cs">the deadline</text>
+
+  <path d="M230 106 H268" class="d-line" marker-end="url(#ar2)"/>
+  <path d="M470 106 H508" class="d-line" marker-end="url(#ar2)"/>
+
+  <!-- Outcomes -->
+  <rect x="760" y="46" width="210" height="140" class="d-box d-ok"/>
+  <text x="776" y="72" class="d-k d-okt">DELIVERED</text>
+  <text x="776" y="96" class="d-t">settleFilled()</text>
+  <text x="776" y="120" class="d-cs">buyer receives the tokens</text>
+  <text x="776" y="138" class="d-cs">seller receives payment</text>
+  <text x="776" y="156" class="d-cs">+ collateral back</text>
+  <text x="776" y="174" class="d-cs">(minus protocol fee)</text>
+
+  <rect x="760" y="214" width="210" height="140" class="d-box d-ko"/>
+  <text x="776" y="240" class="d-k d-kot">NOT DELIVERED</text>
+  <text x="776" y="264" class="d-t">settleCancelled()</text>
+  <text x="776" y="288" class="d-cs">after the deadline, buyer</text>
+  <text x="776" y="306" class="d-cs">reclaims payment</text>
+  <text x="776" y="324" class="d-cs">+ the seller's collateral</text>
+
+  <path d="M720 96 C740 96 740 110 758 110" class="d-line" marker-end="url(#ar2)"/>
+  <path d="M720 140 C745 140 735 280 758 280" class="d-line d-dash" marker-end="url(#ar2)"/>
+
+  <!-- guarantees -->
+  <line x1="30" y1="212" x2="720" y2="212" class="d-rule"/>
+  <text x="30" y="242" class="d-k">CONTRACT GUARANTEES</text>
+  <rect x="30"  y="258" width="220" height="96" class="d-sub"/>
+  <text x="46" y="284" class="d-c">No trusted middleman</text>
+  <text x="46" y="304" class="d-cs">funds only move by contract</text>
+  <text x="46" y="322" class="d-cs">rules, both sides collateralized</text>
+  <rect x="265" y="258" width="220" height="96" class="d-sub"/>
+  <text x="281" y="284" class="d-c">Hardened Solidity</text>
+  <text x="281" y="304" class="d-cs">reentrancy guards, SafeERC20,</text>
+  <text x="281" y="322" class="d-cs">role-based access control</text>
+  <rect x="500" y="258" width="220" height="96" class="d-sub"/>
+  <text x="516" y="284" class="d-c">Upgradeable proxy</text>
+  <text x="516" y="304" class="d-cs">namespaced storage, batch</text>
+  <text x="516" y="322" class="d-cs">settlement, native &amp; ERC-20 pay</text>
+</svg>
+<figcaption>Fig. 3: lifecycle of a trade, enforced by the contract.</figcaption></figure>
+
+  <h2>Architecture</h2>
+  <figure class="fig"><svg class="diag" viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Trench system architecture">
+  <defs>
+    <marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-arrowhead"/></marker>
+  </defs>
+  <!-- Front -->
+  <rect x="30" y="30" width="250" height="150" class="d-box"/>
+  <text x="48" y="56" class="d-k">FRONT-END</text>
+  <text x="48" y="80" class="d-t">Angular 21 · TypeScript</text>
+  <text x="48" y="106" class="d-cs">market, trade, dashboard,</text>
+  <text x="48" y="124" class="d-cs">leaderboard, testnet faucet</text>
+  <text x="48" y="148" class="d-cs">wallet connect (Reown AppKit)</text>
+  <text x="48" y="166" class="d-cs">price charts (ApexCharts)</text>
+
+  <!-- API -->
+  <rect x="375" y="30" width="250" height="150" class="d-box d-hi"/>
+  <text x="393" y="56" class="d-k">API</text>
+  <text x="393" y="80" class="d-t">Node · Express 5 · TS</text>
+  <text x="393" y="106" class="d-cs">wallet-signature login,</text>
+  <text x="393" y="124" class="d-cs">session cookies</text>
+  <text x="393" y="148" class="d-cs">Helmet, rate limiting,</text>
+  <text x="393" y="166" class="d-cs">input validation · PM2</text>
+
+  <!-- DB -->
+  <rect x="720" y="30" width="250" height="150" class="d-box"/>
+  <text x="738" y="56" class="d-k">DATABASE</text>
+  <text x="738" y="80" class="d-t">PostgreSQL</text>
+  <text x="738" y="106" class="d-cs">offers, orders, tokens,</text>
+  <text x="738" y="124" class="d-cs">price history, users</text>
+  <text x="738" y="148" class="d-cs">indexed queries,</text>
+  <text x="738" y="166" class="d-cs">idempotent event log</text>
+
+  <path d="M280 96 H373" class="d-line" marker-end="url(#ar3)" marker-start="url(#ar3)"/>
+  <text x="326" y="88" class="d-cs" text-anchor="middle">REST</text>
+  <path d="M625 96 H718" class="d-line" marker-end="url(#ar3)" marker-start="url(#ar3)"/>
+
+  <!-- Chain -->
+  <rect x="30" y="236" width="250" height="120" class="d-box d-gold-box"/>
+  <text x="48" y="262" class="d-k">HYPEREVM</text>
+  <text x="48" y="286" class="d-t">TrenchMarket.sol</text>
+  <text x="48" y="312" class="d-cs">escrow · collateral · settlement</text>
+  <text x="48" y="330" class="d-cs">an event for every state change</text>
+  <path d="M155 180 V234" class="d-line" marker-end="url(#ar3)"/>
+  <text x="165" y="212" class="d-cs">signed tx</text>
+
+  <!-- Indexer -->
+  <rect x="375" y="236" width="400" height="120" class="d-box"/>
+  <text x="393" y="262" class="d-k">INDEXER AGENTS</text>
+  <text x="393" y="288" class="d-c">Live listener</text>
+  <text x="393" y="306" class="d-cs">WebSocket, heartbeat,</text>
+  <text x="393" y="324" class="d-cs">auto-reconnect</text>
+  <text x="583" y="288" class="d-c">Recovery agent</text>
+  <text x="583" y="306" class="d-cs">chunked log backfill,</text>
+  <text x="583" y="324" class="d-cs">multi-RPC failover</text>
+  <path d="M280 296 H373" class="d-line" marker-end="url(#ar3)"/>
+  <text x="326" y="288" class="d-cs" text-anchor="middle">events</text>
+  <path d="M775 296 H845 V182" class="d-line" marker-end="url(#ar3)"/>
+  <text x="855" y="250" class="d-cs">dedupe by</text>
+  <text x="855" y="266" class="d-cs">event hash</text>
+
+  <rect x="860" y="290" width="110" height="66" class="d-sub"/>
+  <text x="915" y="316" class="d-c" text-anchor="middle">Price agent</text>
+  <text x="915" y="336" class="d-cs" text-anchor="middle">Hyperliquid API</text>
+</svg>
+<figcaption>Fig. 4: chain → indexer → database → API → app.</figcaption></figure>
+  <ul class="list">
+    <li><strong>Contract (forked and adapted):</strong> collateralized bids and asks, partial fills, a settlement phase with a deadline, batch settlement, payment in native token or ERC-20. Built on OpenZeppelin upgradeable contracts with ERC-7201 namespaced storage, reentrancy guards and role-based access.</li>
+    <li><strong>Indexer:</strong> a live WebSocket listener with heartbeat and reconnection, plus a recovery agent that backfills missed blocks in chunks with multi-RPC failover. Writes are idempotent, deduplicated by event hash.</li>
+    <li><strong>API:</strong> Express 5 in TypeScript, wallet-signature login with session cookies, Helmet, rate limiting and input validation; run with PM2.</li>
+    <li><strong>App:</strong> Angular 21 with market, trade, dashboard, leaderboard and testnet faucet pages; wallet connection through Reown AppKit.</li>
+  </ul>
+
+  <div class="pager"><a href="#backtester">← backtester</a><a class="nx" href="#civilization">civilization →</a></div>
+</section>
+
+<!-- CIVILIZATION -->
+<section class="page" data-page="civilization">
+  <div class="crumb"><a href="#home">~</a>/projects/civilization</div>
+  <h1>Early Civilization</h1>
+  <p class="subtitle">A turn-based strategy game in C, first-year project at Télécom Nancy.</p>
+  <div class="meta"><span class="tag">c</span><span class="tag">sdl2</span><span class="tag">make</span><span class="tag">unit tests</span><span class="tag">open source</span></div>
+
+  <dl class="facts">
+    <dt>team</dt><dd>Two students</dd>
+    <dt>my part</dt><dd>Map generation from a seed, and part of the game logic</dd>
+    <dt>code</dt><dd>~3.9k lines of C; game engine separate from both interfaces</dd>
+    <dt>tests</dt><dd>17 unit-test functions on the engine</dd>
+    <dt>repository</dt><dd><a href="https://github.com/lyderic-singer/Civilization">github.com/lyderic-singer/Civilization</a></dd>
+  </dl>
+
+  <h2>The game</h2>
+  <p>The map is generated from a seed, so any game can be replayed. Cities grow and produce units and buildings, a technology tree unlocks progress, and barbarian camps attack. A player wins by researching every technology or by holding enough territory for long enough. Games can be saved and loaded.</p>
+  <p>The terrain is deliberately fine-grained rather than smooth noise: every terrain type, and so every resource, is always close to a city, which keeps the early game moving.</p>
+  <p>The engine in <code>core/</code> knows nothing about display. The same functions drive a terminal interface with ANSI colours and an SDL2 window.</p>
+
+  <div class="shots" style="grid-template-columns:1fr 1fr">
+    <figure><img src="img/civ_sdl.webp" alt="SDL2 interface of the game" loading="lazy"><figcaption>sdl2 interface</figcaption></figure>
+    <figure><img src="img/civ_cli.webp" alt="Terminal interface of the game" loading="lazy"><figcaption>terminal interface</figcaption></figure>
+  </div>
+
+  <div class="pager"><a href="#trench">← trench</a><a class="nx" href="#libscience">libscience →</a></div>
+</section>
+
+<!-- LIBSCIENCE -->
+<section class="page" data-page="libscience">
+  <div class="crumb"><a href="#home">~</a>/work/libscience</div>
+  <h1>LibScience</h1>
+  <p class="subtitle">Software engineering apprentice at a start-up building tools for scientific publishers.</p>
+  <div class="meta"><span class="tag">python</span><span class="tag">fastapi</span><span class="tag">pydantic</span><span class="tag">sqlalchemy</span><span class="tag">redis · dramatiq</span><span class="tag">pytest</span></div>
+
+  <dl class="facts">
+    <dt>period</dt><dd>September 2025 – April 2028</dd>
+    <dt>location</dt><dd>Nancy, France</dd>
+    <dt>rhythm</dt><dd>Alternating company and school in blocks of 2 to 4 weeks</dd>
+  </dl>
+
+  <h2>Reference checker</h2>
+  <p>I work on the back end of a reference checker for scientific manuscripts. My main piece is its citation-format engine.</p>
+  <ul class="list" style="margin-top:12px">
+    <li><strong>Any format:</strong> users pick an existing standard (APA, AMA, IEEE…) or define their own.</li>
+    <li><strong>A small template language:</strong> each citation format is described by templates. A lexer compiles them once into a tree and checks them before a format is saved; a renderer applies the tree to every reference.</li>
+    <li><strong>Reformat and check:</strong> the whole reference list is rewritten to the chosen format, and each reference is validated against it.</li>
+  </ul>
+
+  <h2>What I work with there</h2>
+  <ul class="list">
+    <li>REST APIs with FastAPI and Pydantic models</li>
+    <li>SQLAlchemy over a relational database</li>
+    <li>Background jobs with Dramatiq on Redis</li>
+    <li>Async HTTP clients with rate limiting for bibliographic APIs (Crossref, OpenAlex, PubMed, HAL…)</li>
+    <li>Fuzzy matching to compare references with the records found</li>
+    <li>pytest unit and integration tests run in CI; uv and ruff</li>
+  </ul>
+
+  <div class="pager"><a href="#civilization">← civilization</a><a class="nx" href="#craft">side project →</a></div>
+</section>
+
+<!-- CRAFT -->
+<section class="page" data-page="craft">
+  <div class="crumb"><a href="#home">~</a>/other/empire-bed</div>
+  <h1>Empire four-poster bed</h1>
+  <p class="subtitle">A long-term design and build project, started in 2022.</p>
+  <div class="meta"><span class="tag">sketchup</span><span class="tag">autocad</span><span class="tag">blender</span><span class="tag">woodworking</span><span class="tag">esp32 · home assistant (next)</span></div>
+
+  <dl class="facts">
+    <dt>time spent</dt><dd>300 h of design across five explorations (2022–2025), 1,000+ h of making since February 2025</dd>
+    <dt>with</dt><dd>A heritage architect; made by us, including some of the bronzes</dd>
+    <dt>remaining</dt><dd>About one year</dd>
+  </dl>
+
+  <h2>Why it is here</h2>
+  <p>This is not software, but it shows how I work: I set a hard goal, iterate on the design, and keep going for years until it is done properly.</p>
+  <p>It is also unlike any historical Empire bed. Period canopies hung from the ceiling; here the bed and canopy form one free-standing structure that comes apart to be moved. It is queen size where period beds were narrow singles. The plan was walnut; we chose 40-year-dried pear wood, which is much rarer.</p>
+
+  <h2>Design iterations</h2>
+  <div class="strip">
+    <figure><img src="img/lit_a1.webp" alt="Iteration 1" loading="lazy"><figcaption>v1</figcaption></figure>
+    <figure><img src="img/lit_a2.webp" alt="Iteration 2" loading="lazy"><figcaption>v2</figcaption></figure>
+    <figure><img src="img/lit_a3.webp" alt="Iteration 3" loading="lazy"><figcaption>v3</figcaption></figure>
+    <figure><img src="img/lit_a4.webp" alt="Iteration 4" loading="lazy"><figcaption>v4</figcaption></figure>
+    <figure><img src="img/lit_a5.webp" alt="Iteration 5" loading="lazy"><figcaption>v5</figcaption></figure>
+    <figure><img src="img/lit_a6.webp" alt="Final design" loading="lazy"><figcaption>final</figcaption></figure>
+  </div>
+
+  <h2>Workshop and drawings</h2>
+  <div class="photos">
+    <figure class="ct wide"><img src="img/frieze.webp" alt="Gilt-bronze frieze" loading="lazy"><figcaption>gilt-bronze frieze</figcaption></figure>
+    <figure><img src="img/glueup.webp" alt="Glue-up of a laminated rail" loading="lazy"><figcaption>glue-up, laminated rail</figcaption></figure>
+    <figure><img src="img/pear1.webp" alt="Flamed pear board" loading="lazy"><figcaption>flamed pear, 40 years dried</figcaption></figure>
+    <figure class="ct"><img src="img/headboard.webp" alt="Raw headboard with bronze caryatids" loading="lazy"><figcaption>headboard, before finishing</figcaption></figure>
+    <figure class="ct dark"><img src="img/lit_c1.webp" alt="AutoCAD side elevation" loading="lazy"><figcaption>autocad, side elevation</figcaption></figure>
+    <figure class="ct dark"><img src="img/lit_c3.webp" alt="AutoCAD head elevation" loading="lazy"><figcaption>autocad, head elevation</figcaption></figure>
+    <figure class="ct dark"><img src="img/lit_technique.webp" alt="AutoCAD construction details" loading="lazy"><figcaption>autocad, rail details</figcaption></figure>
+  </div>
+
+  <h2>Specifications</h2>
+  <dl class="facts" style="margin-top:0">
+    <dt>construction</dt><dd>1.5 cm solid pear laminated onto a core of 200-year-old reclaimed oak and chestnut, 5 cm in total</dd>
+    <dt>dimensions</dt><dd>175 × 210 cm, 220 cm high; posts 9.5 cm square, turning round from 8 to 7.5 cm</dd>
+    <dt>bronzes</dt><dd>10–20 kg, including custom pieces</dd>
+    <dt>finish</dt><dd>Eight hand-applied coats of carnauba, tung oil and beeswax; insect treatment rated for 25 years</dd>
+  </dl>
+
+  <h2>Next: the canopy ceiling</h2>
+  <p>A perforated Dibond panel with patterns from drawings by Percier &amp; Fontaine. Behind it: hidden LEDs, fans, a radiator for convection heating and possibly speakers, controlled by ESP32 boards through Home Assistant. Currently at the design stage.</p>
+  <figure class="fig ceil-fig" style="background:#f2efe8;padding:12px"><img src="img/ceiling.webp" alt="Ceiling design by Percier and Fontaine" loading="lazy"><figcaption style="color:#6b6b6b">Ceiling design by Percier &amp; Fontaine, the source of the perforated pattern.</figcaption></figure>
+
+  <div class="pager"><a href="#libscience">← libscience</a><a class="nx" href="#about">about →</a></div>
+</section>
+
+<!-- ABOUT -->
+<section class="page" data-page="about">
+  <div class="crumb"><a href="#home">~</a>/about</div>
+  <h1>About</h1>
+  <p class="subtitle">Background, skills and languages.</p>
+
+  <h2>Education</h2>
+  <div class="tl">
+    <div><span class="w">2025 – 2028</span><p><b>Télécom Nancy, Université de Lorraine</b><span>Diplôme d'Ingénieur (master's-level engineering degree) in computer science, apprenticeship track</span></p></div>
+    <div><span class="w">2023 – 2025</span><p><b>CPGE MPI, Lycée Colbert, Tourcoing</b><span>Intensive two-year preparatory programme in mathematics, physics and computer science</span></p></div>
+    <div><span class="w">2023</span><p><b>Baccalauréat</b><span>Mathematics and engineering science</span></p></div>
+  </div>
+
+  <h2>Skills</h2>
+  <dl class="facts" style="margin-top:0">
+    <dt>languages</dt><dd>Python (advanced), TypeScript / JavaScript, C, Solidity, SQL, OCaml, C++</dd>
+    <dt>backend &amp; data</dt><dd>asyncio, FastAPI, Pydantic, SQLAlchemy, Node.js / Express, PostgreSQL, MySQL, Redis, REST / WebSocket APIs</dd>
+    <dt>systems</dt><dd>C performance work: memory-mapped files, binary formats, OpenMP; SDL2</dd>
+    <dt>frontend</dt><dd>Angular, React, ethers.js</dd>
+    <dt>ops &amp; quality</dt><dd>Linux, Bash, VPS deployment, Docker, PM2, Git, pytest, CI, uv, ruff</dd>
+    <dt>markets</dt><dd>Market microstructure, market making, adverse selection, latency, perps and funding, AMMs, lending, prediction markets</dd>
+    <dt>design</dt><dd>AutoCAD, SketchUp, Blender</dd>
+  </dl>
+
+  <h2>Languages</h2>
+  <dl class="facts" style="margin-top:0">
+    <dt>french</dt><dd>Native</dd>
+    <dt>english</dt><dd>B2, improving every day</dd>
+  </dl>
+
+  <h2>Interests</h2>
+  <p>Financial markets, cabinetmaking, classic cars, calisthenics.</p>
+
+  <div class="pager"><a href="#craft">← side project</a><a class="nx" href="#home">home →</a></div>
+</section>
+
+</main>
+</div>
+
+<script>
+(function(){
+  var pages=[].slice.call(document.querySelectorAll('.page'));
+  var links=[].slice.call(document.querySelectorAll('#menu a'));
+  var names=pages.map(function(p){return p.getAttribute('data-page');});
+  function show(){
+    var h=(location.hash||'').replace('#','');
+    if(names.indexOf(h)<0) h='home';
+    pages.forEach(function(p){p.classList.toggle('on',p.getAttribute('data-page')===h);});
+    links.forEach(function(a){a.classList.toggle('on',a.getAttribute('data-p')===h);});
+    var t=pages[names.indexOf(h)].querySelector('h1');
+    document.title=(h==='home'?'Lydéric Singer':(t?t.textContent:h)+' · Lydéric Singer');
+    window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange',show); show();
+})();
+</script>
+</body>
+</html>
