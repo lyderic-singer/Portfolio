@@ -96,13 +96,14 @@ figure.fig figcaption{font:400 12px/1.5 var(--mono);color:var(--dim);margin-top:
 .strip figure{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#f0eeea}
 .strip img{aspect-ratio:1/1;width:100%;object-fit:cover}
 .strip figcaption{font:400 11px/1.3 var(--mono);color:var(--muted);background:var(--bg);padding:6px 7px;border-top:1px solid var(--line)}
-.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.photos{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
 .photos figure{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#141414}
 .photos img{width:100%;height:220px;object-fit:cover}
 .photos .ct img{object-fit:contain;padding:10px}
 .photos .dark{background:#202630}
-.photos .wide{grid-column:1/-1}
-.photos .wide img{height:260px;padding:16px 24px}
+.final-big{margin-top:12px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#f2f0ec}
+.final-big img{width:100%;max-height:560px;object-fit:contain}
+.final-big figcaption{font:400 11.5px/1.4 var(--mono);color:var(--muted);background:var(--bg);padding:7px 9px;border-top:1px solid var(--line)}
 .photos figcaption{font:400 11.5px/1.4 var(--mono);color:var(--muted);background:var(--bg);padding:7px 9px;border-top:1px solid var(--line)}
 
 /* about */
@@ -169,7 +170,6 @@ code{font:400 .88em var(--mono);background:var(--bg-2);border:1px solid var(--li
   .print-only{display:block!important}
   .no-print{display:none!important}
   .ceil-fig{margin:10px 0 0!important;padding:8px!important} .ceil-fig img{max-height:44mm;width:auto;margin:0 auto} .ceil-fig figcaption{margin-top:6px}
-  .photos .wide img{height:100px;padding:6px}
 }
 .print-only{display:none}
 
@@ -747,14 +747,17 @@ code{font:400 .88em var(--mono);background:var(--bg-2);border:1px solid var(--li
     <figure><img src="img/lit_a6.webp" alt="Final design" loading="lazy"><figcaption>final</figcaption></figure>
   </div>
 
+  <figure class="final-big"><img src="img/lit_final.webp" alt="Final design with curtains, SketchUp render" loading="lazy"><figcaption>final design, with curtains</figcaption></figure>
+
   <h2>Workshop and drawings</h2>
   <div class="photos">
-    <figure class="ct wide"><img src="img/frieze.webp" alt="Gilt-bronze frieze" loading="lazy"><figcaption>gilt-bronze frieze</figcaption></figure>
-    <figure><img src="img/glueup.webp" alt="Glue-up of a laminated rail" loading="lazy"><figcaption>glue-up, laminated rail</figcaption></figure>
+    <figure><img src="img/glueup.webp" alt="Glue-up of a laminated panel on the workbench" loading="lazy"><figcaption>glue-up, laminated panel</figcaption></figure>
     <figure><img src="img/pear1.webp" alt="Flamed pear board" loading="lazy"><figcaption>flamed pear, 40 years dried</figcaption></figure>
     <figure class="ct"><img src="img/headboard.webp" alt="Raw headboard with bronze caryatids" loading="lazy"><figcaption>headboard, before finishing</figcaption></figure>
+    <figure class="ct"><img src="img/frieze.webp" alt="Gilt-bronze frieze" loading="lazy"><figcaption>gilt-bronze frieze</figcaption></figure>
     <figure class="ct dark"><img src="img/lit_c1.webp" alt="AutoCAD side elevation" loading="lazy"><figcaption>autocad, side elevation</figcaption></figure>
     <figure class="ct dark"><img src="img/lit_c3.webp" alt="AutoCAD head elevation" loading="lazy"><figcaption>autocad, head elevation</figcaption></figure>
+    <figure class="ct dark"><img src="img/lit_c4.webp" alt="AutoCAD foot elevation" loading="lazy"><figcaption>autocad, foot elevation</figcaption></figure>
     <figure class="ct dark"><img src="img/lit_technique.webp" alt="AutoCAD construction details" loading="lazy"><figcaption>autocad, rail details</figcaption></figure>
   </div>
 
